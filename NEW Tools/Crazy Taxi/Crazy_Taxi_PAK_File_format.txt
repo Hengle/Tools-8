@@ -1,0 +1,25 @@
+﻿// Crazy Taxi Classic (Android/IOS)
+// PAK file (.pak) description
+// Document has been created by Niterux
+
+
+//HEADER
+char (4 bytes) - magic ("[SOH]pak")
+byte (33 bytes) - unknown (zeroes)
+uint32 (4 bytes) - amount of files
+uint32 (4 bytes) - Length of the data after the table of contents
+uint32 (4 bytes) - Length of the data after the table of contents (again)
+byte (8 bytes) - unknown (zeroes)
+uint32 (4 bytes) - amount of files (again)
+
+//TABLE OF CONTENTS
+Array of length of amount of files in the following layout:
+uint32 (4 bytes) - length of filename
+x chars - filename
+uint32 (4 bytes) - length of filename (again)
+x chars - filename (again)
+uint32 (4 bytes) - filesize
+uint32 (4 bytes) - filesize (again)
+
+//FILE DATA
+x bytes - file data (DDS/PNG Texture)
