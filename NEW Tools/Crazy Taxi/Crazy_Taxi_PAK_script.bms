@@ -1,0 +1,68 @@
+# Script by Niterux
+# Crazy Taxi Classic (Android/IOS) PAK script
+
+
+# Ver    Date        Author               Comment
+# v1.0   13.06.2026  Niterux              -
+
+
+get ARCHIVE_SIZE asize
+get MAGIC LONG
+if MAGIC != 1801547777
+    print "Error: Invalid file magic number. Expected 1801547777."
+    cleanexit
+endif
+GoTo 33 0 SEEK_CUR
+get FILE_COUNT_ONE LONG
+get DATA_LENGTH_ONE LONG
+get DATA_LENGTH_TWO LONG
+if DATA_LENGTH_ONE != DATA_LENGTH_TWO
+    print "Error: Data lengths unmatching."
+    cleanexit
+endif
+
+GoTo 8 0 SEEK_CUR
+get FILE_COUNT_TWO LONG
+if FILE_COUNT_ONE != FILE_COUNT_TWO
+    print "Error: File counts unmatching."
+    cleanexit
+endif
+
+for i = 0 < FILE_COUNT_ONE
+	get NAME_LENGTH_ONE long
+	GetDString FILE_NAME_ONE NAME_LENGTH_ONE
+	get NAME_LENGTH_TWO long
+	if NAME_LENGTH_ONE != NAME_LENGTH_TWO
+		print "Error: Filename lengths unmatching."
+		cleanexit
+	endif
+	GetDString FILE_NAME_TWO NAME_LENGTH_TWO
+	if FILE_NAME_ONE != FILE_NAME_TWO
+		print "Error: File names unmatching."
+		cleanexit
+	endif
+	get FILE_SIZE_ONE long
+	get FILE_SIZE_TWO long
+	if FILE_SIZE_ONE != FILE_SIZE_TWO
+		print "Error: File sizes unmatching."
+		cleanexit
+	endif
+	putarray 0 i FILE_NAME_ONE FILE_SIZE_ONE
+next i
+
+SavePos CURR_OFFSET
+math DATA_LENGTH_ONE + CURR_OFFSET
+if DATA_LENGTH_ONE != ARCHIVE_SIZE
+	print "Error: Archive sizes unmatching."
+	cleanexit
+endif
+for i = 0
+	SavePos CURR_OFFSET
+	if CURR_OFFSET >= ARCHIVE_SIZE
+		cleanexit
+	endif
+	GetArray FILE_NAME FILE_SIZE 0 i
+	log FILE_NAME CURR_OFFSET FILE_SIZE
+	
+	GoTo FILE_SIZE 0 SEEK_CUR
+next i
