@@ -1,6 +1,6 @@
-black==24.3.0
-mypy==0.931
-pylint==2.12.2
-pytest==9.0.3
+black==26.5.1
+mypy==2.3.0
+pylint==4.0.6
+pytest==9.1.1
 xmltodict==0.13.0
 cx-Freeze==6.10
