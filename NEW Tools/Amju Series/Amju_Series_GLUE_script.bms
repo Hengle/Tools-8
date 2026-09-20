@@ -1,0 +1,35 @@
+# Script by Bartlomiej Duda (Ikskoks)
+# Amju Series GLUE script
+
+# Should work with games like:
+#  - Amju Super Golf (PC) (*.GLUE)
+#  - Amju Super Cool Pool (PC) (*.GLUE)
+#  - Amju Pet Zoo (PC) (*.GLUE)
+
+
+# Ver    Date        Author               Comment
+# v1.0   20.09.2026  Bartlomiej Duda      -
+
+
+get NUMBER_OF_FILES long
+get TAIL_OFFSET long
+SavePos BASE_OFFSET
+goto TAIL_OFFSET
+
+for i = 0 < NUMBER_OF_FILES
+	get FILENAME_LENGTH long
+	GetDString FILE_NAME FILENAME_LENGTH
+	get FILE_SIZE long
+	putarray 0 i FILE_NAME
+	putarray 1 i FILE_SIZE
+next i
+
+goto BASE_OFFSET
+SavePos FILE_OFFSET
+
+for j = 0 < NUMBER_OF_FILES
+	getarray FILE_NAME 0 j
+	getarray FILE_SIZE 1 j
+	log FILE_NAME FILE_OFFSET FILE_SIZE
+	xmath FILE_OFFSET "FILE_OFFSET + FILE_SIZE"
+next j
